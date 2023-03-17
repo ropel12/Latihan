@@ -78,7 +78,7 @@ func (app *App) FormTambahKegiatan() {
 	fmt.Println()
 	fmt.Print("Masukan Nama Kegiatan: ")
 	fmt.Scan(&namakegiatan)
-	_, err := app.KegiatanRepo.FindKegiatanByName(namakegiatan)
+	_, err := app.KegiatanRepo.FindKegiatanByName(namakegiatan, app.Session[key].Userid)
 	if err != nil {
 		err2 := app.KegiatanRepo.Create(entity.Kegiatan{NamaKegiatan: namakegiatan, Userid: app.Session[key].Userid})
 		if err2 != nil {

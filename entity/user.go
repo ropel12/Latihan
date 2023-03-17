@@ -1,5 +1,7 @@
 package entity
 
+import "github.com/go-sql-driver/mysql"
+
 type User struct {
 	Userid     int
 	Username   string
@@ -12,6 +14,6 @@ type Rencana struct {
 	IdUser       int
 	NamaRencana  string
 	WaktuRencana string
-	UpdateAt     string
-	DeleteAt     string
+	UpdateAt     mysql.NullTime
+	DeleteAt     mysql.NullTime
 }

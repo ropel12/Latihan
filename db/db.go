@@ -10,7 +10,7 @@ import (
 )
 
 func InitDb() *sql.DB {
-	db, err := sql.Open(config.DbDriver, "root:"+config.DbPassword+"@tcp(localhost:"+config.DbPort+")/"+config.DBname+"?parseTime=true")
+	db, err := sql.Open(config.DbDriver, "root:"+config.DbPassword+"@tcp(localhost:"+config.DbPort+")/"+config.DBname+"?parseTime=True&loc=Asia%2FJakarta&charset=utf8&autocommit=false")
 	helper.PanicIfError(err)
 	db.SetMaxOpenConns(20)
 	db.SetMaxIdleConns(5)

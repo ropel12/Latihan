@@ -18,7 +18,7 @@ func (app *App) LoginForm() {
 	if err != nil {
 		fmt.Println(err.Error())
 		fmt.Print("Loggin Again?(y/t): ")
-		fmt.Scanln(&Repeatlogin)
+		fmt.Scan(&Repeatlogin)
 		if Repeatlogin == "y" {
 			app.LoginForm()
 			return
