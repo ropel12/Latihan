@@ -13,12 +13,12 @@ func (app *App) LoginForm() {
 	var username, password, Repeatlogin string
 	fmt.Println("\n==========================Login Form================================")
 	fmt.Printf("Username : ")
-	fmt.Scan(&username)
+	fmt.Scanln(&username)
 	data, err := app.usersRepo.FindByUsername(username)
 	if err != nil {
 		fmt.Println(err.Error())
 		fmt.Print("Loggin Again?(y/t): ")
-		fmt.Scan(&Repeatlogin)
+		fmt.Scanln(&Repeatlogin)
 		if Repeatlogin == "y" {
 			app.LoginForm()
 			return
@@ -28,11 +28,11 @@ func (app *App) LoginForm() {
 
 	}
 	fmt.Printf("Password : ")
-	fmt.Scan(&password)
+	fmt.Scanln(&password)
 	if data.Password != password {
 		fmt.Println("Password Anda Salah")
 		fmt.Print("Login Lagi? (y/t): ")
-		fmt.Scan(&Repeatlogin)
+		fmt.Scanln(&Repeatlogin)
 		if Repeatlogin == "y" {
 			app.LoginForm()
 			return
@@ -44,7 +44,7 @@ func (app *App) LoginForm() {
 	if data.StatusAkun != 1 {
 		fmt.Println("Akun Anda Sudah Tidak Aktif")
 		fmt.Print("Login Lagi? (y/t): ")
-		fmt.Scan(&Repeatlogin)
+		fmt.Scanln(&Repeatlogin)
 		if Repeatlogin == "y" {
 			app.LoginForm()
 			return
@@ -55,6 +55,7 @@ func (app *App) LoginForm() {
 	}
 	app.Session[data.Username] = data
 	app.DasboardUser()
+	return
 }
 
 func (app *App) Logout() {
@@ -68,7 +69,7 @@ func (app *App) Register() {
 	fmt.Println("================== Register Form =========================")
 	fmt.Println()
 	fmt.Print("Masukan Username Anda: ")
-	fmt.Scan(&username)
+	fmt.Scanln(&username)
 	_, err := app.usersRepo.FindByUsername(username)
 	if err == nil {
 		fmt.Println("Akun Telah Terdaftar Silahkan Gunakan Username Yang berbeda")
@@ -77,7 +78,7 @@ func (app *App) Register() {
 		return
 	}
 	fmt.Print("\nMasukan Password Anda: ")
-	fmt.Scan(&password)
+	fmt.Scanln(&password)
 	app.usersRepo.CreateUser(entity.User{Username: username, Password: password})
 	fmt.Println("Sukses Membuat Akun dan akan diarahkan ke menu login dalam 3 detik")
 	time.Sleep(3 * time.Second)

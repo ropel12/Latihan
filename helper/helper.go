@@ -2,6 +2,7 @@ package helper
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/ropel12/Latihan/entity"
@@ -47,4 +48,10 @@ func ConvertTimezone(tm string) string {
 	zone, _ := time.LoadLocation("Asia/Jakarta")
 	t, _ := time.ParseInLocation(tm, "05-05-2019 05:11", zone)
 	return t.String()
+}
+
+func ConvertStringToTime(tm string) time.Time {
+
+	tmi, _ := time.Parse(strings.Replace(tm, " ", "", -1), tm)
+	return tmi
 }

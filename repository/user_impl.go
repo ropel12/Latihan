@@ -43,6 +43,7 @@ func (u *UserRepo) CreateUser(data entity.User) error {
 		return nil
 	}
 	return errors.New("Gagal Menambahkan User")
+
 }
 
 func (u *UserRepo) UpdateUser(data entity.User) error {
