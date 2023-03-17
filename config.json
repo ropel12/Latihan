@@ -1,0 +1,9 @@
+{
+    "db": {
+        "name": "latihan",
+        "port": "3306",
+        "driver": "mysql",
+        "password" : ""
+    }
+    
+}
