@@ -22,6 +22,7 @@ func (app *App) DasboardUser() {
 	fmt.Println("5.Update Profile")
 	fmt.Println("6.Masukan kegiatan ke rencana")
 	fmt.Println("7.Logout Akun")
+	fmt.Println("Masukan Pilihan Anda:")
 	fmt.Scan(&choice)
 	switch choice {
 	case 1:
@@ -58,6 +59,7 @@ func (app *App) UpdateProfile() {
 	if err != nil {
 		fmt.Println("Username Telah Terdaftar Silahkan Gunakan Yang Lain")
 		app.UpdateProfile()
+		return
 	}
 	fmt.Print("Masukan Password Baru: ")
 	fmt.Scanln(&password)
@@ -82,16 +84,19 @@ func (app *App) FormTambahKegiatan() {
 		if err2 != nil {
 			fmt.Println(err2.Error())
 			app.FormTambahKegiatan()
+			return
 		}
 		fmt.Println("Tambah Kegiatan Berhasil Ditambahkan")
 		fmt.Print("Ingin Menambahkan data lagi? (y/t)")
 		fmt.Scanln(&choice)
 		if choice == "y" {
 			app.FormTambahKegiatan()
+			return
 		}
 		fmt.Println("Anda akan redirect ke menu utama dalam 3 detik")
 		time.Sleep(time.Second * 3)
 		app.DasboardUser()
+		return
 	}
 	fmt.Println("Nama Kegiatan Sudah Ada")
 	time.Sleep(time.Second * 2)
@@ -110,22 +115,29 @@ func (app *App) ListKegiatan() {
 	}
 	fmt.Printf("Berikut ini daftar kegiatan dari %s yang telah dibuat\n", app.Session[key].Username)
 	if len(datas) == 0 {
-		fmt.Print("Anda belum memiliki daftar kegiatan. Jika Anda ingin menambahkan kegiatan masukan angka 1: ")
-		fmt.Scanln(&choice)
+		fmt.Println("Anda belum memiliki daftar kegiatan.")
+		fmt.Print("Jika Anda ingin menambahkan kegiatan masukan angka 1 Jika Tidak masukan 0: ")
+		fmt.Scan(&choice)
 		if choice == 1 {
 			app.FormTambahKegiatan()
 		}
 		app.DasboardUser()
+		return
+
 	}
 	helper.PrintData(datas)
-	fmt.Print("Jika anda ingin menambahkan lagi masukan angka 1 dan jika ingin menghapus masukan angka 2 dan jika ingin mengupdate masukan angka 3 : ")
+	fmt.Println("Jika anda ingin menambahkan lagi masukan angka 1\n jika ingin menghapus masukan angka 2 \njika ingin mengupdate masukan angka 3")
+	fmt.Print("Masukan Pilihan : ")
 	fmt.Scanln(&choice)
 	if choice == 1 {
 		app.FormTambahKegiatan()
+		return
 	} else if choice == 2 {
 		app.HapusKegiatan()
+		return
 	} else if choice == 3 {
 		app.UpdateKegiatan()
+		return
 	}
 	fmt.Println("Anda akan diarahkan ke halaman dashboard")
 	time.Sleep(time.Second * 1)
@@ -141,6 +153,7 @@ func (app *App) HapusKegiatan() {
 			fmt.Println(err.Error())
 			time.Sleep(time.Second * 2)
 			app.DasboardUser()
+			return
 		}
 	}
 	if len(datas) != 0 {
@@ -166,6 +179,7 @@ func (app *App) HapusKegiatan() {
 				fmt.Println("Masukan Data Yang benar")
 				time.Sleep(2 * time.Second)
 				app.HapusKegiatan()
+				return
 			}
 		}
 		toint, _ := strconv.Atoi(choices)
@@ -174,12 +188,14 @@ func (app *App) HapusKegiatan() {
 			fmt.Println(err.Error())
 			fmt.Println("Masukan Data Yang Benar")
 			app.HapusKegiatan()
+			return
 		}
 		fmt.Println("Berhasil Mengapus Data")
 		fmt.Print("Apakah Anda Ingin Melanjutkan (y/t)")
 		fmt.Scan(&choices)
 		if choices == "y" {
 			app.HapusKegiatan()
+			return
 		}
 		fmt.Println("Anda Akan diarahkan ke menu dashboard")
 		time.Sleep(time.Second * 2)

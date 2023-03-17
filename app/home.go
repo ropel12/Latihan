@@ -1,6 +1,8 @@
 package app
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func (app *App) HomePage() {
 	var choice int
@@ -13,14 +15,14 @@ func (app *App) HomePage() {
 	switch choice {
 	case 1:
 		app.LoginForm()
+		return
 
 	case 2:
 		app.Register()
+		return
 
-	case 3:
-		break
 	default:
-		break
+		return
 	}
 
 }

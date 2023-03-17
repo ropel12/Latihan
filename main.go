@@ -5,11 +5,13 @@ import (
 
 	"github.com/ropel12/Latihan/app"
 	"github.com/ropel12/Latihan/db"
+	"github.com/ropel12/Latihan/db/migration"
 	"github.com/ropel12/Latihan/repository"
 )
 
 func main() {
 	db := db.InitDb()
+	migration.Migration()
 	UserRepo := repository.InitUserRepo(db)
 	KegiatanRepo := repository.InitKegiatanRepo(db)
 	var choice int
