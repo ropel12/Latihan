@@ -30,6 +30,7 @@ func (k *KegiatanRepo) GetAll(id int) ([]entity.Kegiatan, error) {
 		}
 		res = append(res, row)
 	}
+	defer rows.Close()
 	return res, nil
 }
 
@@ -55,6 +56,7 @@ func (k *KegiatanRepo) FindKegiatanByName(name string) (res entity.Kegiatan, err
 		err = nil
 		return
 	}
+	defer row.Close()
 	return entity.Kegiatan{}, errors.New("Data Tidak Ditemukan")
 }
 
