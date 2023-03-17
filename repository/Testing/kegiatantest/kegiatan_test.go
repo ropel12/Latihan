@@ -23,8 +23,6 @@ func TestMain(m *testing.M) {
 	id, _ := res.LastInsertId()
 	newid = id
 	m.Run()
-	// Db.Exec("DELETE from users where username='satrio'")
-	// Db.Exec("DELETE from kegiatan where id_user=?", newid)
 }
 func TestSuccessCreateKegiatan(t *testing.T) {
 	var kegiatan = entity.Kegiatan{NamaKegiatan: "Belajar Scala", Userid: int(newid)}
