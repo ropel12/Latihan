@@ -20,6 +20,9 @@ func Migration(db *sql.DB) error {
     FOREIGN KEY (rencana_id_rencana,rencana_user_id_user)
     REFERENCES rencana(id_rencana,id_user)
 ) ENGINE=INNODB;
+
+
+
 `)
 	return helper.CheckIfError(err)
 }

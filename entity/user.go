@@ -6,16 +6,7 @@ type User struct {
 	Userid     int
 	Username   string
 	Password   string
-	StatusAkun bool
-}
-
-type Kegiatan struct {
-	Idkegiatan    int
-	Userid        int
-	NamaKegiatan  string
-	WaktuKegiatan string
-	UpdateAt      time.Time
-	DeleteAt      time.Time
+	StatusAkun int
 }
 
 type Rencana struct {
@@ -27,9 +18,3 @@ type Rencana struct {
 	DeleteAt     time.Time
 }
 
-type RencanaKegiatan struct {
-	Idkegiatan       int
-	IdRencana        int
-	IdUser           int
-	IDRencanKegiatan int
-}
