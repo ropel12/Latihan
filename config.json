@@ -1,8 +1,8 @@
 {
-    "db": {
-        "name": "latihan",
-        "port": "3306",
-        "driver": "mysql",
-        "password" : ""
-    }
+  "db": {
+    "name": "mydb",
+    "port": "3306",
+    "driver": "mysql",
+    "password": "@Pilotjhon18"
+  }
 }

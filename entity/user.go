@@ -18,15 +18,6 @@ type Kegiatan struct {
 	DeleteAt      time.Time
 }
 
-type Rencana struct {
-	IdRencana    int
-	IdUser       int
-	NamaRencana  string
-	WaktuRencana time.Time
-	UpdateAt     time.Time
-	DeleteAt     time.Time
-}
-
 type RencanaKegiatan struct {
 	Idkegiatan       int
 	IdRencana        int
