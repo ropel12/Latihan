@@ -54,7 +54,7 @@ func (app *App) UpdateProfile() {
 	fmt.Printf("Username  Lama : %s\n", app.Session[key].Username)
 	fmt.Printf("Password Baru : %s\n\n", app.Session[key].Password)
 	fmt.Print("Masukan Username Baru: ")
-	fmt.Scanln(&username)
+	fmt.Scan(&username)
 	_, err := app.usersRepo.FindByUsername(username)
 	if err != nil {
 		fmt.Println("Username Telah Terdaftar Silahkan Gunakan Yang Lain")
@@ -62,7 +62,7 @@ func (app *App) UpdateProfile() {
 		return
 	}
 	fmt.Print("Masukan Password Baru: ")
-	fmt.Scanln(&password)
+	fmt.Scan(&password)
 	err1 := app.usersRepo.UpdateUser(entity.User{Username: username, Password: password, StatusAkun: 1})
 	if err1 != nil {
 		fmt.Println(err1.Error())
@@ -77,7 +77,7 @@ func (app *App) FormTambahKegiatan() {
 	fmt.Println()
 	fmt.Println()
 	fmt.Print("Masukan Nama Kegiatan: ")
-	fmt.Scanln(&namakegiatan)
+	fmt.Scan(&namakegiatan)
 	_, err := app.KegiatanRepo.FindKegiatanByName(namakegiatan)
 	if err != nil {
 		err2 := app.KegiatanRepo.Create(entity.Kegiatan{NamaKegiatan: namakegiatan, Userid: app.Session[key].Userid})
@@ -88,7 +88,7 @@ func (app *App) FormTambahKegiatan() {
 		}
 		fmt.Println("Tambah Kegiatan Berhasil Ditambahkan")
 		fmt.Print("Ingin Menambahkan data lagi? (y/t)")
-		fmt.Scanln(&choice)
+		fmt.Scan(&choice)
 		if choice == "y" {
 			app.FormTambahKegiatan()
 			return
@@ -120,6 +120,7 @@ func (app *App) ListKegiatan() {
 		fmt.Scan(&choice)
 		if choice == 1 {
 			app.FormTambahKegiatan()
+			return
 		}
 		app.DasboardUser()
 		return
@@ -128,7 +129,7 @@ func (app *App) ListKegiatan() {
 	helper.PrintData(datas)
 	fmt.Println("Jika anda ingin menambahkan lagi masukan angka 1\n jika ingin menghapus masukan angka 2 \njika ingin mengupdate masukan angka 3")
 	fmt.Print("Masukan Pilihan : ")
-	fmt.Scanln(&choice)
+	fmt.Scan(&choice)
 	if choice == 1 {
 		app.FormTambahKegiatan()
 		return
@@ -160,7 +161,7 @@ func (app *App) HapusKegiatan() {
 		fmt.Println("Silahkan pilih daftar kegiatan yang ingin dihapus")
 		helper.PrintData(datas)
 		fmt.Print("Masukan data yang ingin dihapus jika ingin banyak tambahkan koma contoh(1,2,3,4,5)")
-		fmt.Scanln(&choices)
+		fmt.Scan(&choices)
 		var index int
 		if strings.Contains(choices, ",") {
 			ids := strings.Split(choices, ",")
