@@ -5,6 +5,7 @@ import (
 )
 
 func (app *App) HomePage() {
+	fmt.Print("\x1bc")
 	var choice int
 	fmt.Println("Silahkan Pilih Menu Dibawah Ini : ")
 	fmt.Println("1.Login")

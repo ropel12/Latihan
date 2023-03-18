@@ -33,17 +33,17 @@ func TestFailedCreateUser(t *testing.T) {
 }
 
 func TestSuccessUpdateUser(t *testing.T) {
-	var user = entity.User{Username: "satrio", Password: "123452", StatusAkun: 0}
-	err := RepoUser.UpdateUser(user)
+	var user = entity.User{Username: "satrioz", Password: "123452", StatusAkun: 0}
+	err := RepoUser.UpdateUser(user, "satrio")
 	assert.Nil(t, err, "Test Case Update User")
 }
 func TestFailedUpdateUser(t *testing.T) {
 	var user = entity.User{Username: "zzzzzzzz", Password: "12345"}
-	err := RepoUser.UpdateUser(user)
+	err := RepoUser.UpdateUser(user, "zzzzzzzz")
 	assert.Error(t, err, "Test Case Failed Update")
 }
 func TestSuccessFindByUsername(t *testing.T) {
-	datas, _ := RepoUser.FindByUsername("satrio")
+	datas, _ := RepoUser.FindByUsername("satrioz")
 	assert.NotNil(t, datas, "Test Case Success FindByusername")
 }
 
