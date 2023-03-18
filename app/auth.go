@@ -61,6 +61,7 @@ func (app *App) LoginForm() {
 func (app *App) Logout() {
 	key := helper.GetUser(app.Session)
 	delete(app.Session, key)
+	app.HomePage()
 }
 
 func (app *App) Register() {

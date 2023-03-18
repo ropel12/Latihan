@@ -22,7 +22,7 @@ func main() {
 	fmt.Println("1.Running Aplikasi")
 	fmt.Println("9.Exit")
 	fmt.Print("Masukan Pilihan: ")
-	fmt.Scan(&choice)
+	fmt.Scanln(&choice)
 	for choice != 9 && choice == 1 {
 		switch choice {
 		case 1:

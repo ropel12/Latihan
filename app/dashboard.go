@@ -45,6 +45,7 @@ func (app *App) DasboardUser() {
 
 func (app *App) UpdateProfile() {
 	var choice int
+	var oldusername string
 	defer func() {
 		fmt.Print("Jika Ingin Kembali Tekan 9 : ")
 		fmt.Scanln(&choice)
@@ -53,24 +54,40 @@ func (app *App) UpdateProfile() {
 		}
 		app.UpdateProfile()
 	}()
+	fmt.Print("\x1bc")
 	key := helper.GetUser(app.Session)
+	oldusername = app.Session[key].Username
 	var username, password string
 	fmt.Printf("Username  Lama : %s\n", app.Session[key].Username)
-	fmt.Printf("Password Baru : %s\n\n", app.Session[key].Password)
+	fmt.Printf("Password Lama : %s\n\n", app.Session[key].Password)
 	fmt.Print("Masukan Username Baru: ")
 	fmt.Scanln(&username)
 	_, err := app.usersRepo.FindByUsername(username)
-	if err != nil {
+	if err == nil {
 		fmt.Println("Username Telah Terdaftar Silahkan Gunakan Yang Lain")
+		time.Sleep(time.Second * 2)
 		app.UpdateProfile()
 		return
 	}
 	fmt.Print("Masukan Password Baru: ")
 	fmt.Scanln(&password)
-	err1 := app.usersRepo.UpdateUser(entity.User{Username: username, Password: password, StatusAkun: 1})
+	err1 := app.usersRepo.UpdateUser(entity.User{Username: username, Password: password, StatusAkun: 1}, app.Session[key].Username)
 	if err1 != nil {
 		fmt.Println(err1.Error())
+		fmt.Println("Anda akan diarahkan ke halaman dashboard")
+		time.Sleep(time.Second * 3)
+		app.DasboardUser()
+		return
 	}
+	fmt.Println("Berhasil Update Profile")
+	fmt.Println("Anda akan diarahkan ke halaman dashboard")
+	newdata, _ := app.usersRepo.FindByUsername(username)
+	delete(app.Session, oldusername)
+	fmt.Println(oldusername)
+	app.Session[username] = newdata
+	time.Sleep(time.Second * 3)
+	app.DasboardUser()
+	return
 
 }
 
@@ -134,6 +151,7 @@ func (app *App) ListKegiatan() {
 	}
 	helper.PrintData(datas)
 	fmt.Println("Jika anda ingin menambahkan lagi masukan angka 1\njika ingin menghapus masukan angka 2\njika ingin mengupdate masukan angka 3")
+	fmt.Println("Jika anda ingin kemmbali ke menu dashboard masukan angka 4")
 	fmt.Print("Masukan Pilihan : ")
 	fmt.Scanln(&choice)
 	if choice == 1 {
@@ -144,6 +162,9 @@ func (app *App) ListKegiatan() {
 		return
 	} else if choice == 3 {
 		app.UpdateKegiatan()
+		return
+	} else if choice == 4 {
+		app.DasboardUser()
 		return
 	}
 	fmt.Println("Anda akan diarahkan ke halaman dashboard")
@@ -283,7 +304,7 @@ func (app *App) UpdateKegiatan() {
 
 func (app *App) DeleteAccount() {
 	key := helper.GetUser(app.Session)
-	app.usersRepo.UpdateUser(entity.User{Username: app.Session[key].Username, Password: app.Session[key].Password, StatusAkun: 0})
+	app.usersRepo.UpdateUser(entity.User{Username: app.Session[key].Username, Password: app.Session[key].Password, StatusAkun: 0}, app.Session[key].Username)
 	fmt.Println("Berhasil Menghapus Akun Tunggu 3 detik dan akan redirect halaman home")
 	time.Sleep(time.Second * 3)
 

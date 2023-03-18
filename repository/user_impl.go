@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	"github.com/ropel12/Latihan/entity"
 )
@@ -46,14 +45,13 @@ func (u *UserRepo) CreateUser(data entity.User) error {
 
 }
 
-func (u *UserRepo) UpdateUser(data entity.User) error {
-	row, err := u.db.Exec("UPDATE users set username=?, password=?,status_account=? WHERE username=?", data.Username, data.Password, data.StatusAkun, data.Username)
+func (u *UserRepo) UpdateUser(data entity.User, oldusername string) error {
+	row, err := u.db.Exec("UPDATE users set username=?, password=?,status_account=? WHERE username=?", data.Username, data.Password, data.StatusAkun, oldusername)
 	if err != nil {
 		return err
 	}
 
 	rowaff, _ := row.RowsAffected()
-	fmt.Println("ini row", rowaff)
 	if rowaff > 0 {
 		return nil
 	}
