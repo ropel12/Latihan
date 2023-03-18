@@ -274,6 +274,7 @@ func (app *App) UpdateKegiatan() {
 	fmt.Println("Masukan Tanggal Kegiatan Baru contoh( 2023-03-18 00:20:10 ): ")
 	app.Scanner.Scan()
 	waktu = app.Scanner.Text()
+	fmt.Println(helper.ConvertStringToTime(waktu))
 	err1 := app.KegiatanRepo.UpdateKegiatan(entity.Kegiatan{NamaKegiatan: kegiatan, WaktuKegiatan: helper.ConvertStringToTime(waktu)}, datas[choice-1].Idkegiatan)
 	if err1 != nil {
 		fmt.Println(err1.Error())
