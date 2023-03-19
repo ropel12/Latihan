@@ -15,6 +15,7 @@ func main() {
 	migration.Migration()
 	UserRepo := repository.InitUserRepo(db)
 	KegiatanRepo := repository.InitKegiatanRepo(db)
+	RencanaRepo := repository.InitRencanaRepo(db)
 	var choice int
 	defer db.Close()
 	defer fmt.Println("Terimakasih telah menggunakan aplikasi kami")
@@ -26,7 +27,7 @@ func main() {
 	for choice != 9 && choice == 1 {
 		switch choice {
 		case 1:
-			app := app.NewApp(UserRepo, KegiatanRepo)
+			app := app.NewApp(UserRepo, KegiatanRepo, RencanaRepo)
 			app.Start()
 		}
 

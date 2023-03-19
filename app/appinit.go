@@ -12,14 +12,16 @@ import (
 type App struct {
 	usersRepo    repository.UserInterface
 	KegiatanRepo repository.KegiatanInterface
+	RencanaRepo repository.RencanaInterface
 	Session      map[string]entity.User
 	Scanner      *bufio.Scanner
 }
 
-func NewApp(userRepo repository.UserInterface, KegiatanRepo repository.KegiatanInterface) *App {
+func NewApp(userRepo repository.UserInterface, KegiatanRepo repository.KegiatanInterface, RencanaRepo repository.RencanaInterface) *App {
 	return &App{
 		usersRepo:    userRepo,
 		KegiatanRepo: KegiatanRepo,
+		RencanaRepo: RencanaRepo,
 		Session:      make(map[string]entity.User, 0),
 		Scanner:      bufio.NewScanner(os.Stdin),
 	}

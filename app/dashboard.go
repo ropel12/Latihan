@@ -30,9 +30,11 @@ func (app *App) DasboardUser() {
 	case 1:
 		app.ListKegiatan()
 	case 2:
+		app.ListRencana()
 	case 3:
 		app.FormTambahKegiatan()
 	case 4:
+		app.FormTambahRencana()
 	case 5:
 		app.UpdateProfile()
 	case 6:
@@ -308,5 +310,70 @@ func (app *App) DeleteAccount() {
 	app.usersRepo.UpdateUser(entity.User{Username: app.Session[key].Username, Password: app.Session[key].Password, StatusAkun: 0}, app.Session[key].Username)
 	fmt.Println("Berhasil Menghapus Akun Tunggu 3 detik dan akan redirect halaman home")
 	time.Sleep(time.Second * 3)
+
+}
+
+func (app *App) ListRencana() {
+	key := helper.GetUser(app.Session)
+	var choice int
+	datas, err := app.RencanaRepo.FindRencanaByUID(app.Session[key].Userid)
+	if err != nil {
+		fmt.Println(err.Error())
+		time.Sleep(time.Second * 2)
+		app.DasboardUser()
+	}
+	fmt.Printf("Berikut ini daftar rencana dari %s yang telah dibuat\n", app.Session[key].Username)
+	if len(datas) == 0 {
+		fmt.Print("Anda belum memiliki daftar rencana. Jika Anda ingin menambahkan rencana masukan angka 1: ")
+		fmt.Scanln(&choice)
+		if choice == 1 {
+			app.FormTambahRencana()
+		}
+		app.DasboardUser()
+	}
+	helper.PrintData(datas)
+	fmt.Print("Jika anda ingin menambahkan lagi masukan angka 1 dan jika ingin menghapus masukan angka 2 dan jika ingin mengupdate masukan angka 3 : ")
+	fmt.Scanln(&choice)
+	if choice == 1 {
+		app.FormTambahRencana()
+	} else if choice == 2 {
+		// app.HapusRencana()
+	} else if choice == 3 {
+		// app.UpdateRencana()
+	}
+	fmt.Println("Anda akan diarahkan ke halaman dashboard")
+	time.Sleep(time.Second * 1)
+	app.DasboardUser()
+}
+
+func (app *App) FormTambahRencana() {
+	key := helper.GetUser(app.Session)
+	var namarencana, choice string
+	var userId int
+	fmt.Println("=================FORM TAMBAH RENCANA===========================")
+	fmt.Println()
+	fmt.Println()
+	fmt.Print("Masukan Nama Kegiatan: ")
+	fmt.Scan(&namarencana)
+	_, err := app.RencanaRepo.FindRencanaByUID(userId)
+	if err != nil {
+		err2 := app.RencanaRepo.CreateRencana(entity.Rencana{NamaRencana: namarencana, IdRencana: app.Session[key].Userid})
+		if err2 != nil {
+			fmt.Println(err2.Error())
+			app.FormTambahRencana()
+		}
+		fmt.Println("Tambah Rencana Berhasil Ditambahkan")
+		fmt.Print("Ingin Menambahkan data lagi? (y/t)")
+		fmt.Scan(&choice)
+		if choice == "y" {
+			app.FormTambahRencana()
+		}
+		fmt.Println("Anda akan redirect ke menu utama dalam 3 detik")
+		time.Sleep(time.Second * 3)
+		app.DasboardUser()
+	}
+	fmt.Println("Nama Rencana Sudah Ada")
+	time.Sleep(time.Second * 2)
+	app.FormTambahRencana()
 
 }

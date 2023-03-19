@@ -15,9 +15,10 @@ func (app *App) LoginForm() {
 	fmt.Printf("Username : ")
 	fmt.Scanln(&username)
 	data, err := app.usersRepo.FindByUsername(username)
+	fmt.Println(data.Password)
 	if err != nil {
 		fmt.Println(err.Error())
-		fmt.Print("Loggin Again?(y/t): ")
+		fmt.Print("Login Again?(y/t): ")
 		fmt.Scanln(&Repeatlogin)
 		if Repeatlogin == "y" {
 			app.LoginForm()
