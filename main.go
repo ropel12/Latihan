@@ -5,11 +5,14 @@ import (
 
 	"github.com/ropel12/Latihan/app"
 	"github.com/ropel12/Latihan/db"
+	"github.com/ropel12/Latihan/db/migration"
 	"github.com/ropel12/Latihan/repository"
 )
 
 func main() {
+
 	db := db.InitDb()
+	migration.Migration()
 	UserRepo := repository.InitUserRepo(db)
 	KegiatanRepo := repository.InitKegiatanRepo(db)
 	RencanaRepo := repository.InitRencanaRepo(db)
@@ -20,13 +23,12 @@ func main() {
 	fmt.Println("1.Running Aplikasi")
 	fmt.Println("9.Exit")
 	fmt.Print("Masukan Pilihan: ")
-	fmt.Scan(&choice)
+	fmt.Scanln(&choice)
 	for choice != 9 && choice == 1 {
 		switch choice {
 		case 1:
 			app := app.NewApp(UserRepo, KegiatanRepo, RencanaRepo)
 			app.Start()
-
 		}
 
 	}

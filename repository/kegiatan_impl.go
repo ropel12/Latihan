@@ -17,11 +17,12 @@ func InitKegiatanRepo(db *sql.DB) KegiatanInterface {
 }
 
 func (k *KegiatanRepo) GetAll(id int) ([]entity.Kegiatan, error) {
-	rows, err := k.db.Query("SELECT id_kegiatan,nama_kegiatan,waktu_kegiatan,updated_at,id_user from kegiatan WHERE id_user=?", id)
+	rows, err := k.db.Query("SELECT id_kegiatan,nama_kegiatan,waktu_kegiatan,updated_at,id_user from kegiatan WHERE id_user=? And deleted_at IS NULL", id)
 	res := make([]entity.Kegiatan, 0)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	for rows.Next() {
 		row := entity.Kegiatan{}
 		err := rows.Scan(&row.Idkegiatan, &row.NamaKegiatan, &row.WaktuKegiatan, &row.UpdateAt, &row.Userid)
@@ -45,17 +46,18 @@ func (k *KegiatanRepo) Create(data entity.Kegiatan) error {
 	return errors.New("Gagal Membuat Kegiatan")
 }
 
-func (k *KegiatanRepo) FindKegiatanByName(name string) (res entity.Kegiatan, err error) {
-	row, err := k.db.Query("SELECT id_kegiatan,nama_kegiatan,waktu_kegiatan,update_at,id_user from kegiatan WHERE deleted_at = NULL")
+func (k *KegiatanRepo) FindKegiatanByName(name string, userid int) (entity.Kegiatan, error) {
+	var res entity.Kegiatan
+	row, err := k.db.Query("SELECT id_kegiatan,nama_kegiatan,waktu_kegiatan,updated_at,id_user from kegiatan WHERE deleted_at IS NULL AND id_user=? AND nama_kegiatan=?", userid, name)
 	if err != nil {
 		return entity.Kegiatan{}, err
 	}
 	if row.Next() {
-		row.Scan(&res.Idkegiatan, &res.NamaKegiatan, &res.WaktuKegiatan, &res.UpdateAt)
-		err = nil
-		return
+		row.Scan(&res.Idkegiatan, &res.NamaKegiatan, &res.WaktuKegiatan, &res.UpdateAt, &res.Userid)
+		return res, nil
 	}
-	return entity.Kegiatan{}, errors.New("Data Tidak Ditemukan")
+	defer row.Close()
+	return res, errors.New("Data Tidak Ditemukan")
 }
 
 func (k *KegiatanRepo) UpdateKegiatan(data entity.Kegiatan, id int) error {

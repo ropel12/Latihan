@@ -18,7 +18,7 @@ func InitRencanaRepo(db *sql.DB) RencanaInterface {
 func (r *RencanaRepo) FindByRencanaId(rencana int) (entity.Rencana, error) {
 	var res entity.Rencana
 	err := r.db.QueryRow("SELECT id_rencana, nama_rencana, waktu_rencana, updated_at, deleted_at, id_user FROM rencana WHERE id_rencana=?", rencana).Scan(
-		&res.IdRencana, &res.NamaRencana, &res.WaktuRencana, &res.UpdateAt, &res.DeleteAt, &res.Userid,
+		&res.IdRencana, &res.NamaRencana, &res.WaktuRencana, &res.UpdateAt, &res.DeleteAt, &res.IdUser,
 	)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -29,24 +29,23 @@ func (r *RencanaRepo) FindByRencanaId(rencana int) (entity.Rencana, error) {
 	return res, nil
 }
 
-
 func (r *RencanaRepo) FindRencanaByUID(IdUser int) ([]entity.Rencana, error) {
 	var res []entity.Rencana
-	rows, err := r.db.Query("SELECT id_rencana, nama_rencana, waktu_rencana, updated_at, id_user FROM rencana WHERE id_user=?" , IdUser)
+	rows, err := r.db.Query("SELECT id_rencana, nama_rencana, waktu_rencana, updated_at, id_user FROM rencana WHERE id_user=?", IdUser)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	
+
 	for rows.Next() {
 		var row entity.Rencana
-		
-		err := rows.Scan(&row.IdRencana, &row.NamaRencana, &row.WaktuRencana, &row.UpdateAt,  &row.Userid)
+
+		err := rows.Scan(&row.IdRencana, &row.NamaRencana, &row.WaktuRencana, &row.UpdateAt, &row.IdUser)
 		if err != nil {
 			return nil, err
 		}
-		
-		res = append(res,row)
+
+		res = append(res, row)
 	}
 	return res, nil
 }

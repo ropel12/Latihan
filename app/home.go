@@ -1,8 +1,11 @@
 package app
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func (app *App) HomePage() {
+	fmt.Print("\x1bc")
 	var choice int
 	fmt.Println("Silahkan Pilih Menu Dibawah Ini : ")
 	fmt.Println("1.Login")
@@ -13,14 +16,14 @@ func (app *App) HomePage() {
 	switch choice {
 	case 1:
 		app.LoginForm()
+		return
 
 	case 2:
 		app.Register()
+		return
 
-	case 3:
-		break
 	default:
-		break
+		return
 	}
 
 }

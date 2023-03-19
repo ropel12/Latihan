@@ -1,12 +1,16 @@
 package entity
 
-import "time"
+import (
+	"time"
+
+	"github.com/go-sql-driver/mysql"
+)
 
 type Rencana struct {
 	IdRencana    int
-	Userid       int
+	IdUser       int
 	NamaRencana  string
-	WaktuRencana string
-	UpdateAt     string
-	DeleteAt     time.Time
+	WaktuRencana time.Time
+	UpdateAt     mysql.NullTime
+	DeleteAt     mysql.NullTime
 }

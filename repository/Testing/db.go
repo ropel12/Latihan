@@ -1,16 +1,15 @@
-package db
+package Testing
 
 import (
 	"database/sql"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/ropel12/Latihan/config"
 	"github.com/ropel12/Latihan/helper"
 )
 
 func InitDb() *sql.DB {
-	db, err := sql.Open(config.DbDriver, "root:"+config.DbPassword+"@tcp(localhost:"+config.DbPort+")/"+config.DBname+"?parseTime=True&loc=Asia%2FJakarta&charset=utf8")
+	db, err := sql.Open("mysql", "root:@tcp(localhost:3306)/latihan?parseTime=true")
 	helper.PanicIfError(err)
 	db.SetMaxOpenConns(20)
 	db.SetMaxIdleConns(5)

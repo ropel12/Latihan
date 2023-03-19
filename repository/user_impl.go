@@ -16,7 +16,7 @@ func InitUserRepo(db *sql.DB) UserInterface {
 }
 
 func (u *UserRepo) FindByUsername(username string) (entity.User, error) {
-	var res entity.User
+	res := entity.User{}
 	row, err := u.db.Query("SELECT id_user,username,password,status_account FROM users WHERE username=?", username)
 	if err != nil {
 		return res, err
@@ -26,7 +26,7 @@ func (u *UserRepo) FindByUsername(username string) (entity.User, error) {
 		row.Scan(&res.Userid, &res.Username, &res.Password, &res.StatusAkun)
 		return res, nil
 	}
-	return res, errors.New("User Tidak Ditemukan") 
+	return res, errors.New("User Tidak Ditemukan")
 
 }
 
@@ -42,10 +42,11 @@ func (u *UserRepo) CreateUser(data entity.User) error {
 		return nil
 	}
 	return errors.New("Gagal Menambahkan User")
+
 }
 
-func (u *UserRepo) UpdateUser(data entity.User) error {
-	row, err := u.db.Exec("UPDATE users set username=?, password=?,status_account=?", data.Username, data.Password, data.StatusAkun)
+func (u *UserRepo) UpdateUser(data entity.User, oldusername string) error {
+	row, err := u.db.Exec("UPDATE users set username=?, password=?,status_account=? WHERE username=?", data.Username, data.Password, data.StatusAkun, oldusername)
 	if err != nil {
 		return err
 	}

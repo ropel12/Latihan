@@ -6,4 +6,3 @@ type User struct {
 	Password   string
 	StatusAkun int
 }
-
