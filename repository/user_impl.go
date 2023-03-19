@@ -15,21 +15,18 @@ func InitUserRepo(db *sql.DB) UserInterface {
 	return &UserRepo{db}
 }
 
-func (u *UserRepo) FindByUsername(username string) (res entity.User, err error) {
+func (u *UserRepo) FindByUsername(username string) (entity.User, error) {
+	var res entity.User
 	row, err := u.db.Query("SELECT id_user,username,password,status_account FROM users WHERE username=?", username)
 	if err != nil {
-		return entity.User{}, err
+		return res, err
 	}
 	defer row.Close()
 	if row.Next() {
 		row.Scan(&res.Userid, &res.Username, &res.Password, &res.StatusAkun)
-		err = nil
-		res = entity.User{}
-		return
+		return res, nil
 	}
-	err = errors.New("User Tidak Ditemukan")
-	res = entity.User{}
-	return
+	return res, errors.New("User Tidak Ditemukan") 
 
 }
 

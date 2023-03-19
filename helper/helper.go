@@ -30,13 +30,13 @@ func PrintData(datas interface{}) {
 	if datas1, ok := datas.([]entity.Kegiatan); ok {
 		var i = 1
 		for _, val := range datas1 {
-			fmt.Printf("%d. %s  %s ", i, val.NamaKegiatan, val.WaktuKegiatan)
+			fmt.Printf("%d. %s  %s \n", i, val.NamaKegiatan, val.WaktuKegiatan)
 			i++
 		}
 	} else if datas2, ok := datas.([]entity.Rencana); ok {
 		var i = 1
 		for _, val := range datas2 {
-			fmt.Printf("%d. %s  %s", i, val.NamaRencana, val.WaktuRencana)
+			fmt.Printf("%d. %s  %s \n", i, val.NamaRencana, val.WaktuRencana)
 			i++
 		}
 	}
